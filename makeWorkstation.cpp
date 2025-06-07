@@ -1,14 +1,14 @@
 #include "makeWorkstation.h"
 
 Workstation createCaptainStation() {
-    return {"CaptainStation", "Captain"};
+    return {"CaptainStation", "Captain", 10};
 }
 Workstation createHelmStation() {
-    return {"HelmStation", "Helm"};
+    return {"HelmStation", "Helm", 7};
 }
 Workstation createSecurityStation() {
-    return {"SecurityStation", "Security"};
+    return {"SecurityStation", "Security", 5};
 }
 Workstation createEngineerStation() {
-    return {"EngineerStation", "Engineer"};
+    return {"EngineerStation", "Engineer", 6};
 }

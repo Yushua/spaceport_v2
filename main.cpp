@@ -179,20 +179,32 @@ void updateCrewStatusOnTick(std::vector<CrewMember>& crew) {
             member.hunger -= 15;
             if (member.hunger <= 0) {
                 member.hunger = 0;
-                member.status = "nothing";
-                member.location = member.room;
+                // After eating, go back to work if possible
+                if (!member.workstation.empty()) {
+                    member.status = "working";
+                    // Optionally set location to workstation location if you track it
+                } else {
+                    member.status = "nothing";
+                }
+                member.location = member.room; // Or set to workstation location if needed
             }
-            continue; // Eating takes priority
+            continue;
         }
         // If sleeping, reduce sleep
         if (member.status == "sleeping") {
             member.sleep -= 15;
             if (member.sleep <= 0) {
                 member.sleep = 0;
-                member.status = "nothing";
-                member.location = member.room;
+                // After sleeping, go back to work if possible
+                if (!member.workstation.empty()) {
+                    member.status = "working";
+                    // Optionally set location to workstation location if you track it
+                } else {
+                    member.status = "nothing";
+                }
+                member.location = member.room; // Or set to workstation location if needed
             }
-            continue; // Sleeping takes priority
+            continue;
         }
         // Add hunger and sleep each tick
         member.hunger += 5;
@@ -209,9 +221,16 @@ void updateCrewStatusOnTick(std::vector<CrewMember>& crew) {
             member.location = member.room;
             continue;
         }
-        // If not eating or sleeping, set status
+        // If not eating or sleeping, set status and GAIN EXPERIENCE if working
         if (!member.workstation.empty() && member.location != member.room) {
             member.status = "working";
+            // Experience gain by workstation
+            for (const auto& ws : workstations) {
+                if (ws.name == member.workstation) {
+                    member.exp += ws.expGain;
+                    break;
+                }
+            }
         } else {
             member.status = "nothing";
         }

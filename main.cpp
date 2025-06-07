@@ -23,9 +23,11 @@ void creatingGame() {
     for (int i = 0; i < 4; ++i) crew.push_back(createTraining());
 }
 
+void clearScreen();
+
 void timeLoop() {
     while (true) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(std::chrono::seconds(10));
         minutes += 15;
         if (minutes >= 60) {
             minutes -= 60;
@@ -35,9 +37,11 @@ void timeLoop() {
             hours -= 24;
             days++;
         }
+        clearScreen();
         std::cout << "Time: " << days << " days, " << hours << " hours, " << minutes << " minutes" << std::endl;
         writeCrewToFile(crew, "info/crew/crewLog.txt");
         std::cout << "Crew log updated." << std::endl;
+        std::cout << "Enter command: " << std::flush;
     }
 }
 
@@ -49,13 +53,20 @@ void commandLoop() {
         if (input == "exit" || input == "quit") {
             break;
         }
-        // Show the current time when a command is entered
         std::cout << "Current Time: " << days << " days, " << hours << " hours, " << minutes << " minutes" << std::endl;
         handleCommands(crew);
+        clearScreen();
     }
 }
 
+// Add this function to clear the terminal screen
+void clearScreen() {
+    // ANSI escape code to clear screen and move cursor to top-left
+    std::cout << "\033[2J\033[1;1H";
+}
+
 int main() {
+    clearScreen();
     creatingGame();
     std::cout << "Starting Space Port game..." << std::endl;
     std::thread t1(timeLoop);

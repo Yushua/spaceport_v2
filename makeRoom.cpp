@@ -1,4 +1,5 @@
 #include "makeRoom.h"
+#include "civilian.h"
 
 Room createQuarters(int number) {
     Room room;
@@ -9,6 +10,14 @@ Room createQuarters(int number) {
 Room createCafeteria() {
     Room room;
     room.name = "cafeteria";
+    return room;
+}
+
+Room createCanteen() {
+    Room room;
+    room.name = "canteen";
+    room.type = "canteen";
+    room.description = "A place where civilians eat.";
     return room;
 }
 
@@ -55,4 +64,23 @@ Room createPort() {
     Room room;
     room.name = "port";
     return room;
+}
+
+Room createHubRoom(const std::string& civilianName) {
+    Room room;
+    room.name = "hubRoom_" + civilianName;
+    room.type = "hubRoom";
+    room.description = "Private civilian quarters for " + civilianName;
+    return room;
+}
+
+void setupRoomsAndCivilians(std::vector<Room>& rooms, std::vector<Civilian>& civilians, int numCivilians) {
+    rooms.push_back(createCanteen());
+    for (int i = 0; i < numCivilians; ++i) {
+        Civilian civ = createCivilian();
+        rooms.push_back(createHubRoom(civ.name));
+        civ.room = "hubRoom_" + civ.name;
+        civ.location = civ.room;
+        civilians.push_back(civ);
+    }
 }

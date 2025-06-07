@@ -4,9 +4,7 @@
 
 struct Room {
     std::string name;
-    std::string location;
-    int space;
-    std::vector<std::pair<std::string, int>> inventory;
-    std::vector<std::string> additions;
+    std::string type;
+    std::string description;
     std::vector<std::string> workspaces;
 };

@@ -1,24 +1,20 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall
-SRC = main.cpp loop/loop.cpp crew.cpp makeCrew.cpp makeRoom.cpp makeWorkstation.cpp
-OBJ = $(SRC:.cpp=.o)
-TARGET = spaceport
 
-all: $(TARGET)
+SRCS = main.cpp loop/loop.cpp crew.cpp makeCrew.cpp makeRoom.cpp makeWorkstation.cpp makeCivilian.cpp
+OBJS = $(SRCS:.cpp=.o)
 
-$(TARGET): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+spaceport: $(OBJS)
+	$(CXX) $(CXXFLAGS) -o spaceport $(OBJS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-run: clean_txt $(TARGET)
-	./$(TARGET)
-
 clean:
-	del /Q *.o loop\*.o 2>nul || rm -f *.o loop/*.o
-	del /Q $(TARGET).exe 2>nul || rm -f $(TARGET)
-
-clean_txt:
+	del /Q *.o 2>nul || rm -f *.o
+	del /Q spaceport.exe 2>nul || rm -f spaceport
 	del /Q info\crew\*.txt 2>nul || rm -f info/crew/*.txt
 	del /Q info\crew\crewMembers\*.txt 2>nul || rm -f info/crew/crewMembers/*.txt
+
+run: spaceport
+	./spaceport

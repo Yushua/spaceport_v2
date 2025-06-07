@@ -1,4 +1,13 @@
 #include "makeCrew.h"
+#include <random>
+
+// Helper for random stat generation
+int randomBetween(int min, int max) {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(min, max);
+    return dist(gen);
+}
 
 CrewMember createCommander() {
     CrewMember member;
@@ -9,6 +18,14 @@ CrewMember createCommander() {
     member.location = "";
     member.room = "";
     member.workstation = "";
+    member.intelligence = randomBetween(4, 8);
+    member.strength = randomBetween(4, 8);
+    member.endurance = randomBetween(4, 8);
+    member.hunger = 0;
+    member.sleep = 0;
+    member.hungerLimit = member.strength * member.endurance + 30;
+    member.sleepLimit = member.intelligence * member.endurance + 40;
+    member.status = "nothing";
     return member;
 }
 
@@ -21,6 +38,14 @@ CrewMember createEngineer() {
     member.location = "";
     member.room = "";
     member.workstation = "";
+    member.intelligence = randomBetween(0, 4);
+    member.strength = randomBetween(0, 4);
+    member.endurance = randomBetween(0, 4);
+    member.hunger = 0;
+    member.sleep = 0;
+    member.hungerLimit = member.strength * member.endurance + 30;
+    member.sleepLimit = member.intelligence * member.endurance + 40;
+    member.status = "nothing";
     return member;
 }
 
@@ -33,6 +58,14 @@ CrewMember createOfficer() {
     member.location = "";
     member.room = "";
     member.workstation = "";
+    member.intelligence = randomBetween(4, 8);
+    member.strength = randomBetween(4, 8);
+    member.endurance = randomBetween(4, 8);
+    member.hunger = 0;
+    member.sleep = 0;
+    member.hungerLimit = member.strength * member.endurance + 30;
+    member.sleepLimit = member.intelligence * member.endurance + 40;
+    member.status = "nothing";
     return member;
 }
 
@@ -45,6 +78,14 @@ CrewMember createMedic() {
     member.location = "";
     member.room = "";
     member.workstation = "";
+    member.intelligence = randomBetween(0, 4);
+    member.strength = randomBetween(0, 4);
+    member.endurance = randomBetween(0, 4);
+    member.hunger = 0;
+    member.sleep = 0;
+    member.hungerLimit = member.strength * member.endurance + 30;
+    member.sleepLimit = member.intelligence * member.endurance + 40;
+    member.status = "nothing";
     return member;
 }
 
@@ -57,6 +98,14 @@ CrewMember createHeadEngineer() {
     member.location = "";
     member.room = "";
     member.workstation = "";
+    member.intelligence = randomBetween(4, 8);
+    member.strength = randomBetween(4, 8);
+    member.endurance = randomBetween(4, 8);
+    member.hunger = 0;
+    member.sleep = 0;
+    member.hungerLimit = member.strength * member.endurance + 30;
+    member.sleepLimit = member.intelligence * member.endurance + 40;
+    member.status = "nothing";
     return member;
 }
 
@@ -69,6 +118,14 @@ CrewMember createEnsign() {
     member.location = "";
     member.room = "";
     member.workstation = "";
+    member.intelligence = randomBetween(0, 4);
+    member.strength = randomBetween(0, 4);
+    member.endurance = randomBetween(0, 4);
+    member.hunger = 0;
+    member.sleep = 0;
+    member.hungerLimit = member.strength * member.endurance + 30;
+    member.sleepLimit = member.intelligence * member.endurance + 40;
+    member.status = "nothing";
     return member;
 }
 
@@ -81,5 +138,13 @@ CrewMember createTraining() {
     member.location = "";
     member.room = "";
     member.workstation = "";
+    member.intelligence = randomBetween(0, 4);
+    member.strength = randomBetween(0, 4);
+    member.endurance = randomBetween(0, 4);
+    member.hunger = 0;
+    member.sleep = 0;
+    member.hungerLimit = member.strength * member.endurance + 30;
+    member.sleepLimit = member.intelligence * member.endurance + 40;
+    member.status = "nothing";
     return member;
 }

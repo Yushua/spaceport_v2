@@ -10,6 +10,8 @@
 #include "workstation.h"
 #include "makeWorkstation.h"
 
+void updateCrewStatusOnTick(std::vector<CrewMember>& crew);
+
 std::vector<CrewMember> crew;
 std::vector<Room> rooms;
 std::vector<Workstation> workstations;
@@ -136,17 +138,14 @@ void timeLoop() {
     while (true) {
         std::this_thread::sleep_for(std::chrono::seconds(10));
         minutes += 15;
-        if (minutes >= 60) {
-            minutes -= 60;
-            hours++;
-        }
-        if (hours >= 24) {
-            hours -= 24;
-            days++;
-        }
+        if (minutes >= 60) { minutes -= 60; hours++; }
+        if (hours >= 24) { hours -= 24; days++; }
+
+        updateCrewStatusOnTick(crew); // <-- This must be here!
+
         clearScreen();
         std::cout << "Time: " << days << " days, " << hours << " hours, " << minutes << " minutes" << std::endl;
-        writeCrewToFile(crew, "info/crew/crewLog.txt");
+        writeCrewToFile(crew, workstations, "info/crew/crewLog.txt");
         writeRoomDataToFile(crew, "info/rooms/roomData.txt");
         std::cout << "Crew log updated." << std::endl;
         std::cout << "Enter command: " << std::flush;
@@ -171,6 +170,52 @@ void commandLoop() {
 void clearScreen() {
     // ANSI escape code to clear screen and move cursor to top-left
     std::cout << "\033[2J\033[1;1H";
+}
+
+void updateCrewStatusOnTick(std::vector<CrewMember>& crew) {
+    for (auto& member : crew) {
+        // If eating, reduce hunger
+        if (member.status == "eating") {
+            member.hunger -= 15;
+            if (member.hunger <= 0) {
+                member.hunger = 0;
+                member.status = "nothing";
+                member.location = member.room;
+            }
+            continue; // Eating takes priority
+        }
+        // If sleeping, reduce sleep
+        if (member.status == "sleeping") {
+            member.sleep -= 15;
+            if (member.sleep <= 0) {
+                member.sleep = 0;
+                member.status = "nothing";
+                member.location = member.room;
+            }
+            continue; // Sleeping takes priority
+        }
+        // Add hunger and sleep each tick
+        member.hunger += 5;
+        member.sleep += 4;
+        // Check hunger first
+        if (member.hunger >= member.hungerLimit) {
+            member.status = "eating";
+            member.location = "cafeteria";
+            continue;
+        }
+        // Then check sleep
+        if (member.sleep >= member.sleepLimit) {
+            member.status = "sleeping";
+            member.location = member.room;
+            continue;
+        }
+        // If not eating or sleeping, set status
+        if (!member.workstation.empty() && member.location != member.room) {
+            member.status = "working";
+        } else {
+            member.status = "nothing";
+        }
+    }
 }
 
 int main() {

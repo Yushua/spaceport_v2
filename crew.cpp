@@ -95,17 +95,19 @@ void handleCommands(const std::vector<CrewMember>& crew) {
     }
 }
 
-void writeCrewToFile(const std::vector<CrewMember>& crew, const std::string& filename) {
+void writeCrewToFile(const std::vector<CrewMember>& crew, const std::vector<Workstation>& workstations, const std::string& filename) {
     std::ofstream out(filename);
-    if (!out) {
-        std::cerr << "Could not open " << filename << " for writing.\n";
-        return;
-    }
+    if (!out) return;
     out << "Crew List:\n";
     for (const auto& member : crew) {
         out << "- " << member.name << " (" << member.title << ")\n";
         out << "  Level: " << member.lvl << ", Exp: " << member.exp << "\n";
-        out << "  Description: " << member.description << "\n";
+        out << "  Intelligence: " << member.intelligence
+            << ", Strength: " << member.strength
+            << ", Endurance: " << member.endurance << "\n";
+        out << "  Hunger: " << member.hunger << "/" << member.hungerLimit
+            << ", Sleep: " << member.sleep << "/" << member.sleepLimit << "\n";
+        out << "  Status: " << member.status << "\n";
         out << "  Location: " << member.location << ", Room: " << member.room << ", Workstation: " << member.workstation << "\n";
     }
     out.close();

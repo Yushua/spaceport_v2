@@ -11,6 +11,7 @@ struct CrewMember {
     std::string location;
     std::string room;
     std::string workstation;
+    std::string status; // Add this line
 };
 
 std::vector<CrewMember> createCrew(int count);

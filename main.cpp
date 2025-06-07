@@ -28,44 +28,22 @@ void creatingGame() {
     rooms.clear();
     workstations.clear();
 
-    // Create crew and assign names
-    CrewMember commander = createCommander();
-    commander.name = "Commander Smith";
-    crew.push_back(commander);
+    // Create crew using only the createXxx() functions
+    crew.push_back(createCommander());
+    crew.push_back(createOfficer());
+    crew.push_back(createOfficer());
+    crew.push_back(createHeadEngineer());
 
-    CrewMember officer1 = createOfficer();
-    officer1.name = "Officer Lee";
-    crew.push_back(officer1);
+    for (int i = 0; i < 3; ++i)
+        crew.push_back(createEngineer());
 
-    CrewMember officer2 = createOfficer();
-    officer2.name = "Officer Brown";
-    crew.push_back(officer2);
+    crew.push_back(createMedic());
 
-    CrewMember headEngineer = createHeadEngineer();
-    headEngineer.name = "Head Engineer Garcia";
-    crew.push_back(headEngineer);
+    for (int i = 0; i < 3; ++i)
+        crew.push_back(createEnsign());
 
-    for (int i = 0; i < 3; ++i) {
-        CrewMember engineer = createEngineer();
-        engineer.name = "Engineer_" + std::to_string(i + 1);
-        crew.push_back(engineer);
-    }
-
-    CrewMember medic = createMedic();
-    medic.name = "Medic Martinez";
-    crew.push_back(medic);
-
-    for (int i = 0; i < 3; ++i) {
-        CrewMember ensign = createEnsign();
-        ensign.name = "Ensign_" + std::to_string(i + 1);
-        crew.push_back(ensign);
-    }
-
-    for (int i = 0; i < 4; ++i) {
-        CrewMember training = createTraining();
-        training.name = "Training_" + std::to_string(i + 1);
-        crew.push_back(training);
-    }
+    for (int i = 0; i < 4; ++i)
+        crew.push_back(createTraining());
 
     // Create rooms
     for (int i = 0; i < crew.size(); ++i)
@@ -194,11 +172,17 @@ void updateCrewStatusOnTick(std::vector<CrewMember>& crew) {
                 // After eating, go back to work if possible
                 if (!member.workstation.empty()) {
                     member.status = "working";
-                    // Optionally set location to workstation location if you track it
+                    // Find the room containing the workstation
+                    for (const auto& room : rooms) {
+                        if (std::find(room.workspaces.begin(), room.workspaces.end(), member.workstation) != room.workspaces.end()) {
+                            member.location = room.name;
+                            break;
+                        }
+                    }
                 } else {
                     member.status = "nothing";
+                    member.location = member.room;
                 }
-                member.location = member.room; // Or set to workstation location if needed
             }
             continue;
         }
@@ -210,11 +194,17 @@ void updateCrewStatusOnTick(std::vector<CrewMember>& crew) {
                 // After sleeping, go back to work if possible
                 if (!member.workstation.empty()) {
                     member.status = "working";
-                    // Optionally set location to workstation location if you track it
+                    // Find the room containing the workstation
+                    for (const auto& room : rooms) {
+                        if (std::find(room.workspaces.begin(), room.workspaces.end(), member.workstation) != room.workspaces.end()) {
+                            member.location = room.name;
+                            break;
+                        }
+                    }
                 } else {
                     member.status = "nothing";
+                    member.location = member.room;
                 }
-                member.location = member.room; // Or set to workstation location if needed
             }
             continue;
         }
@@ -234,8 +224,15 @@ void updateCrewStatusOnTick(std::vector<CrewMember>& crew) {
             continue;
         }
         // If not eating or sleeping, set status and GAIN EXPERIENCE if working
-        if (!member.workstation.empty() && member.location != member.room) {
+        if (!member.workstation.empty()) {
             member.status = "working";
+            // Find the room containing the workstation
+            for (const auto& room : rooms) {
+                if (std::find(room.workspaces.begin(), room.workspaces.end(), member.workstation) != room.workspaces.end()) {
+                    member.location = room.name;
+                    break;
+                }
+            }
             // Experience gain by workstation
             for (const auto& ws : workstations) {
                 if (ws.name == member.workstation) {
@@ -245,6 +242,7 @@ void updateCrewStatusOnTick(std::vector<CrewMember>& crew) {
             }
         } else {
             member.status = "nothing";
+            member.location = member.room;
         }
     }
 }

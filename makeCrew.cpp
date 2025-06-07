@@ -73,7 +73,7 @@ CrewMember createCommander() {
 
 CrewMember createEngineer() {
     CrewMember member;
-    member.name = getRandomName();
+    member.name = getRandomName(); // <-- Assign random full name here!
     member.title = "Engineer";
     member.lvl = 0;
     member.exp = 0;

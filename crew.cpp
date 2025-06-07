@@ -109,9 +109,19 @@ void writeCrewToFile(const std::vector<CrewMember>& crew, const std::vector<Work
 }
 
 void updateCrewMemberFiles(const std::vector<CrewMember>& crew) {
-    std::filesystem::create_directories("info/crew/crewMembers");
     for (const auto& member : crew) {
-        std::string filename = "info/crew/crewMembers/" + member.name + ".txt";
+        std::string roleFolder;
+        if (member.title == "Commander") roleFolder = "command";
+        else if (member.title == "Officer") roleFolder = "officer";
+        else if (member.title == "Head Engineer" || member.title == "Engineer") roleFolder = "engineer";
+        else if (member.title == "Medic") roleFolder = "medic";
+        else if (member.title == "Training") roleFolder = "training";
+        else if (member.title == "Ensign") roleFolder = "ensign";
+        else roleFolder = "other";
+
+        std::filesystem::create_directories("info/crew/crewMembers/" + roleFolder);
+
+        std::string filename = "info/crew/crewMembers/" + roleFolder + "/" + member.name + ".txt";
         std::replace(filename.begin(), filename.end(), ' ', '_');
         std::ofstream out(filename);
         if (out) {

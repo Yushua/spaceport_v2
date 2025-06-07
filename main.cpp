@@ -45,14 +45,14 @@ void creatingGame() {
     for (int i = 0; i < 4; ++i)
         crew.push_back(createTraining());
 
-    // Create rooms
+    // Create rooms, all at level 1
     for (int i = 0; i < crew.size(); ++i)
-        rooms.push_back(createQuarters(i + 1));
-    rooms.push_back(createCafeteria());
-    rooms.push_back(createDeck());
-    rooms.push_back(createEngineeringRoom());
-    rooms.push_back(createStorageRoom());
-    rooms.push_back(createPort());
+        rooms.push_back(createQuarters(i + 1, 1));
+    rooms.push_back(createCafeteria(1));
+    rooms.push_back(createDeck(1));
+    rooms.push_back(createEngineeringRoom(1));
+    rooms.push_back(createStorageRoom(1));
+    rooms.push_back(createPort(1));
 
     // Create workstations for deck and engineering room
     workstations.push_back(createCaptainStation());
@@ -98,22 +98,33 @@ void creatingGame() {
 void clearScreen();
 
 // Add this function to write room data every tick
-void writeRoomDataToFile(const std::vector<CrewMember>& crew, const std::string& filename) {
+void writeRoomDataToFile(const std::vector<CrewMember>& crew, const std::vector<Room>& rooms, const std::string& filename) {
     std::ofstream out(filename);
     if (!out) return;
-    out << "Name,RoomType,RoomName\n";
+    out << "Name,RoomType,RoomName,RoomLevel\n";
     for (const auto& member : crew) {
-        std::string roomType;
-        if (member.location == member.room) {
-            roomType = "quarters";
-        } else if (member.location == "deck") {
-            roomType = "deck";
-        } else if (member.location == "engineering_room") {
-            roomType = "engineering_room";
-        } else {
-            roomType = member.location;
-        }
-        out << member.name << "," << roomType << "," << member.location << "\n";
+        // Find the room object for this member's location
+        auto it = std::find_if(rooms.begin(), rooms.end(), [&](const Room& room) {
+            return room.name == member.location;
+        });
+        std::string roomType = (it != rooms.end()) ? it->type : "";
+        int roomLevel = (it != rooms.end()) ? it->level : 1;
+        out << member.name << "," << roomType << "," << member.location << "," << roomLevel << "\n";
+    }
+    out.close();
+}
+
+void writeAllRoomsToFile(const std::vector<Room>& rooms, const std::string& filename) {
+    std::ofstream out(filename);
+    if (!out) return;
+    out << "RoomName,RoomType,RoomLevel,BaseStorage,Storage,Description\n";
+    for (const auto& room : rooms) {
+        out << room.name << ","
+            << room.type << ","
+            << room.level << ","
+            << room.baseStorage << ","
+            << room.storage << ","
+            << room.description << "\n";
     }
     out.close();
 }
@@ -136,7 +147,7 @@ void timeLoop() {
         clearScreen();
         std::cout << "Time: " << days << " days, " << hours << " hours, " << minutes << " minutes" << std::endl;
         writeCrewToFile(crew, workstations, "info/crew/crewLog.txt");
-        writeRoomDataToFile(crew, "info/rooms/roomData.txt");
+        writeAllRoomsToFile(rooms, "info/rooms/roomData.txt");
         std::cout << "Crew log updated." << std::endl;
         std::cout << "Enter command: " << std::flush;
     }

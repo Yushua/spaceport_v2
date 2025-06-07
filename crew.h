@@ -17,3 +17,4 @@ std::vector<CrewMember> createCrew(int count);
 void listCrew(const std::vector<CrewMember>& crew);
 void showCrewMember(const std::vector<CrewMember>& crew, const std::string& name);
 void handleCommands(const std::vector<CrewMember>& crew);
+void writeCrewToFile(const std::vector<CrewMember>& crew, const std::string& filename = "dataLog.txt");

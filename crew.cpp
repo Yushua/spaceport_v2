@@ -2,6 +2,8 @@
 #include <iostream>
 #include <random>
 #include <algorithm>
+#include <fstream>
+#include <filesystem> // Add this at the top (C++17 and later)
 
 std::vector<std::string> firstNames = {
     "Alex", "Morgan", "Taylor", "Jordan", "Casey",
@@ -23,6 +25,9 @@ std::vector<CrewMember> createCrew(int count) {
     std::uniform_int_distribution<> lastDist(0, lastNames.size() - 1);
     std::uniform_int_distribution<> titleDist(0, titles.size() - 1);
 
+    // Ensure the folder exists
+    std::filesystem::create_directories("info/crew/crewMembers");
+
     for (int i = 0; i < count; ++i) {
         CrewMember member;
         member.name = firstNames[firstDist(gen)] + " " + lastNames[lastDist(gen)];
@@ -34,6 +39,22 @@ std::vector<CrewMember> createCrew(int count) {
         member.room = "";
         member.workstation = "";
         crew.push_back(member);
+
+        // Create a file for this crew member
+        std::string filename = "info/crew/crewMembers/" + member.name + ".txt";
+        // Replace spaces in filename with underscores for safety
+        std::replace(filename.begin(), filename.end(), ' ', '_');
+        std::ofstream out(filename);
+        if (out) {
+            out << "Name: " << member.name << "\n";
+            out << "Title: " << member.title << "\n";
+            out << "Level: " << member.lvl << "\n";
+            out << "Exp: " << member.exp << "\n";
+            out << "Description: " << member.description << "\n";
+            out << "Location: " << member.location << "\n";
+            out << "Room: " << member.room << "\n";
+            out << "Workstation: " << member.workstation << "\n";
+        }
     }
     return crew;
 }
@@ -64,16 +85,33 @@ void showCrewMember(const std::vector<CrewMember>& crew, const std::string& name
 
 void handleCommands(const std::vector<CrewMember>& crew) {
     std::string input;
-    std::cout << "Enter command (Crew or NAME): ";
+    std::cout << "Enter command: ";
     std::getline(std::cin, input);
 
-    // Convert input to lowercase for comparison
     std::string lowerInput = input;
     std::transform(lowerInput.begin(), lowerInput.end(), lowerInput.begin(), ::tolower);
 
     if (lowerInput == "crew") {
-        listCrew(crew);
+        // Do nothing, info is now only in dataLog.txt
+        std::cout << "Crew info updated in dataLog.txt\n";
     } else {
         showCrewMember(crew, input);
+        // For future: if other commands need to write to other files, call those functions here
     }
+}
+
+void writeCrewToFile(const std::vector<CrewMember>& crew, const std::string& filename) {
+    std::ofstream out(filename);
+    if (!out) {
+        std::cerr << "Could not open " << filename << " for writing.\n";
+        return;
+    }
+    out << "Crew List:\n";
+    for (const auto& member : crew) {
+        out << "- " << member.name << " (" << member.title << ")\n";
+        out << "  Level: " << member.lvl << ", Exp: " << member.exp << "\n";
+        out << "  Description: " << member.description << "\n";
+        out << "  Location: " << member.location << ", Room: " << member.room << ", Workstation: " << member.workstation << "\n";
+    }
+    out.close();
 }

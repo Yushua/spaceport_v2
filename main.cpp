@@ -8,18 +8,18 @@ void creatingGame() {
     crew = createCrew(5);
 }
 
-// Example tick function
 void onTick() {
     static int tickCount = 0;
     std::cout << "15 minutes have passed" << std::endl;
+    writeCrewToFile(crew, "info/crew/crewLog.txt");
     handleCommands(crew);
-    if (++tickCount >= 5) { // Stop after 5 ticks for demo
+    if (++tickCount >= 5) {
         stopGameLoop();
     }
 }
 
 int main() {
-    int intervalSeconds = 5; // Set the interval here
+    int intervalSeconds = 5;
     creatingGame();
     std::cout << "Starting Space Port game loop..." << std::endl;
     gameLoop(intervalSeconds, onTick);

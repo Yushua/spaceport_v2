@@ -3,7 +3,7 @@
 #include <random>
 #include <algorithm>
 #include <fstream>
-#include <filesystem> // Add this at the top (C++17 and later)
+#include <filesystem>
 
 std::vector<std::string> firstNames = {
     "Alex", "Morgan", "Taylor", "Jordan", "Casey",
@@ -25,7 +25,6 @@ std::vector<CrewMember> createCrew(int count) {
     std::uniform_int_distribution<> lastDist(0, lastNames.size() - 1);
     std::uniform_int_distribution<> titleDist(0, titles.size() - 1);
 
-    // Ensure the folder exists
     std::filesystem::create_directories("info/crew/crewMembers");
 
     for (int i = 0; i < count; ++i) {
@@ -40,9 +39,7 @@ std::vector<CrewMember> createCrew(int count) {
         member.workstation = "";
         crew.push_back(member);
 
-        // Create a file for this crew member
         std::string filename = "info/crew/crewMembers/" + member.name + ".txt";
-        // Replace spaces in filename with underscores for safety
         std::replace(filename.begin(), filename.end(), ' ', '_');
         std::ofstream out(filename);
         if (out) {
@@ -92,11 +89,9 @@ void handleCommands(const std::vector<CrewMember>& crew) {
     std::transform(lowerInput.begin(), lowerInput.end(), lowerInput.begin(), ::tolower);
 
     if (lowerInput == "crew") {
-        // Do nothing, info is now only in dataLog.txt
         std::cout << "Crew info updated in dataLog.txt\n";
     } else {
         showCrewMember(crew, input);
-        // For future: if other commands need to write to other files, call those functions here
     }
 }
 

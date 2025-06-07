@@ -1,5 +1,8 @@
 #include "makeCrew.h"
 #include <random>
+#include <fstream>
+#include <filesystem>
+#include <algorithm>
 
 // Helper for random stat generation
 int randomBetween(int min, int max) {
@@ -26,6 +29,19 @@ CrewMember createCommander() {
     member.hungerLimit = member.strength * member.endurance + 30;
     member.sleepLimit = member.intelligence * member.endurance + 40;
     member.status = "nothing";
+
+    // Save to file
+    std::filesystem::create_directories("info/crew/crewMembers");
+    std::string filename = "info/Crew/crewMembers/" + member.name + ".txt";
+    std::replace(filename.begin(), filename.end(), ' ', '_');
+    std::ofstream out(filename);
+    if (out) {
+        out << "Name: " << member.name << "\n";
+        out << "Title: " << member.title << "\n";
+        out << "Level: " << member.lvl << "\n";
+        // ...add other initial stats as needed...
+    }
+
     return member;
 }
 
@@ -46,6 +62,19 @@ CrewMember createEngineer() {
     member.hungerLimit = member.strength * member.endurance + 30;
     member.sleepLimit = member.intelligence * member.endurance + 40;
     member.status = "nothing";
+
+    // Save to file
+    std::filesystem::create_directories("info/crew/crewMembers");
+    std::string filename = "info/crew/crewMembers/" + member.name + ".txt";
+    std::replace(filename.begin(), filename.end(), ' ', '_');
+    std::ofstream out(filename);
+    if (out) {
+        out << "Name: " << member.name << "\n";
+        out << "Title: " << member.title << "\n";
+        out << "Level: " << member.lvl << "\n";
+        // ...add other initial stats as needed...
+    }
+
     return member;
 }
 
@@ -66,6 +95,19 @@ CrewMember createOfficer() {
     member.hungerLimit = member.strength * member.endurance + 30;
     member.sleepLimit = member.intelligence * member.endurance + 40;
     member.status = "nothing";
+
+    // Save to file
+    std::filesystem::create_directories("info/crew/crewMembers");
+    std::string filename = "info/crew/crewMembers/" + member.name + ".txt";
+    std::replace(filename.begin(), filename.end(), ' ', '_');
+    std::ofstream out(filename);
+    if (out) {
+        out << "Name: " << member.name << "\n";
+        out << "Title: " << member.title << "\n";
+        out << "Level: " << member.lvl << "\n";
+        // ...add other initial stats as needed...
+    }
+
     return member;
 }
 
@@ -86,6 +128,19 @@ CrewMember createMedic() {
     member.hungerLimit = member.strength * member.endurance + 30;
     member.sleepLimit = member.intelligence * member.endurance + 40;
     member.status = "nothing";
+
+    // Save to file
+    std::filesystem::create_directories("info/crew/crewMembers");
+    std::string filename = "info/crew/crewMembers/" + member.name + ".txt";
+    std::replace(filename.begin(), filename.end(), ' ', '_');
+    std::ofstream out(filename);
+    if (out) {
+        out << "Name: " << member.name << "\n";
+        out << "Title: " << member.title << "\n";
+        out << "Level: " << member.lvl << "\n";
+        // ...add other initial stats as needed...
+    }
+
     return member;
 }
 
@@ -106,6 +161,19 @@ CrewMember createHeadEngineer() {
     member.hungerLimit = member.strength * member.endurance + 30;
     member.sleepLimit = member.intelligence * member.endurance + 40;
     member.status = "nothing";
+
+    // Save to file
+    std::filesystem::create_directories("info/crew/crewMembers");
+    std::string filename = "info/crew/crewMembers/" + member.name + ".txt";
+    std::replace(filename.begin(), filename.end(), ' ', '_');
+    std::ofstream out(filename);
+    if (out) {
+        out << "Name: " << member.name << "\n";
+        out << "Title: " << member.title << "\n";
+        out << "Level: " << member.lvl << "\n";
+        // ...add other initial stats as needed...
+    }
+
     return member;
 }
 
@@ -126,6 +194,19 @@ CrewMember createEnsign() {
     member.hungerLimit = member.strength * member.endurance + 30;
     member.sleepLimit = member.intelligence * member.endurance + 40;
     member.status = "nothing";
+
+    // Save to file
+    std::filesystem::create_directories("info/crew/crewMembers");
+    std::string filename = "info/crew/crewMembers/" + member.name + ".txt";
+    std::replace(filename.begin(), filename.end(), ' ', '_');
+    std::ofstream out(filename);
+    if (out) {
+        out << "Name: " << member.name << "\n";
+        out << "Title: " << member.title << "\n";
+        out << "Level: " << member.lvl << "\n";
+        // ...add other initial stats as needed...
+    }
+
     return member;
 }
 
@@ -146,5 +227,18 @@ CrewMember createTraining() {
     member.hungerLimit = member.strength * member.endurance + 30;
     member.sleepLimit = member.intelligence * member.endurance + 40;
     member.status = "nothing";
+
+    // Save to file
+    std::filesystem::create_directories("info/crew/crewMembers");
+    std::string filename = "info/crew/crewMembers/" + member.name + ".txt";
+    std::replace(filename.begin(), filename.end(), ' ', '_');
+    std::ofstream out(filename);
+    if (out) {
+        out << "Name: " << member.name << "\n";
+        out << "Title: " << member.title << "\n";
+        out << "Level: " << member.lvl << "\n";
+        // ...add other initial stats as needed...
+    }
+
     return member;
 }

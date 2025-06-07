@@ -112,3 +112,26 @@ void writeCrewToFile(const std::vector<CrewMember>& crew, const std::vector<Work
     }
     out.close();
 }
+
+void updateCrewMemberFiles(const std::vector<CrewMember>& crew) {
+    std::filesystem::create_directories("info/crew/crewMembers");
+    for (const auto& member : crew) {
+        std::string filename = "info/crew/crewMembers/" + member.name + ".txt";
+        std::replace(filename.begin(), filename.end(), ' ', '_');
+        std::ofstream out(filename);
+        if (out) {
+            out << "Name: " << member.name << "\n";
+            out << "Title: " << member.title << "\n";
+            out << "Level: " << member.lvl << ", Exp: " << member.exp << "\n";
+            out << "Intelligence: " << member.intelligence << "\n";
+            out << "Strength: " << member.strength << "\n";
+            out << "Endurance: " << member.endurance << "\n";
+            out << "Hunger: " << member.hunger << "/" << member.hungerLimit << "\n";
+            out << "Sleep: " << member.sleep << "/" << member.sleepLimit << "\n";
+            out << "Status: " << member.status << "\n";
+            out << "Location: " << member.location << "\n";
+            out << "Room: " << member.room << "\n";
+            out << "Workstation: " << member.workstation << "\n";
+        }
+    }
+}

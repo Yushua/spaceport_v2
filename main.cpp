@@ -2,6 +2,7 @@
 #include <thread>
 #include <atomic>
 #include <fstream>
+#include <algorithm>
 #include "loop/loop.h"
 #include "crew.h"
 #include "makeCrew.h"
@@ -11,6 +12,7 @@
 #include "makeWorkstation.h"
 
 void updateCrewStatusOnTick(std::vector<CrewMember>& crew);
+void updateCrewMemberFiles(const std::vector<CrewMember>& crew);
 
 std::vector<CrewMember> crew;
 std::vector<Room> rooms;
@@ -19,6 +21,7 @@ std::vector<Workstation> workstations;
 int minutes = 0;
 int hours = 0;
 int days = 0;
+int lastUpdateHour = 0;
 
 void creatingGame() {
     crew.clear();
@@ -109,6 +112,9 @@ void creatingGame() {
             crew[i].status = "nothing";
         }
     }
+
+    // Create initial crew member files
+    updateCrewMemberFiles(crew);
 }
 
 void clearScreen();
@@ -141,7 +147,13 @@ void timeLoop() {
         if (minutes >= 60) { minutes -= 60; hours++; }
         if (hours >= 24) { hours -= 24; days++; }
 
-        updateCrewStatusOnTick(crew); // <-- This must be here!
+        updateCrewStatusOnTick(crew);
+
+        // Update crew member files every 2 hours
+        if (hours % 2 == 0 && hours != lastUpdateHour) {
+            updateCrewMemberFiles(crew);
+            lastUpdateHour = hours;
+        }
 
         clearScreen();
         std::cout << "Time: " << days << " days, " << hours << " hours, " << minutes << " minutes" << std::endl;
@@ -236,6 +248,8 @@ void updateCrewStatusOnTick(std::vector<CrewMember>& crew) {
         }
     }
 }
+
+void updateCrewMemberFiles(const std::vector<CrewMember>& crew);
 
 int main() {
     clearScreen();

@@ -5,14 +5,9 @@
 #include <fstream>
 #include <filesystem>
 
-std::vector<std::string> firstNames = {
-    "Alex", "Morgan", "Taylor", "Jordan", "Casey",
-    "Riley", "Jamie", "Drew", "Skyler", "Avery"
-};
-std::vector<std::string> lastNames = {
-    "Smith", "Johnson", "Lee", "Brown", "Garcia",
-    "Martinez", "Davis", "Clark", "Lewis", "Walker"
-};
+extern std::vector<std::string> firstNames;
+extern std::vector<std::string> lastNames;
+
 std::vector<std::string> titles = {
     "Engineer", "Pilot", "Scientist", "Medic", "Technician"
 };

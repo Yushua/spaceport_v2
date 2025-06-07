@@ -18,3 +18,11 @@ void listCrew(const std::vector<CrewMember>& crew);
 void showCrewMember(const std::vector<CrewMember>& crew, const std::string& name);
 void handleCommands(const std::vector<CrewMember>& crew);
 void writeCrewToFile(const std::vector<CrewMember>& crew, const std::string& filename = "dataLog.txt");
+
+CrewMember createCommander();
+CrewMember createEngineer();
+CrewMember createOfficer();
+CrewMember createMedic();
+CrewMember createHeadEngineer();
+CrewMember createEnsign();
+CrewMember createTraining();

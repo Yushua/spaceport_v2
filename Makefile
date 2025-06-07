@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall
-SRC = main.cpp loop/loop.cpp crew.cpp
+SRC = main.cpp loop/loop.cpp crew.cpp makeCrew.cpp
 OBJ = $(SRC:.cpp=.o)
 TARGET = spaceport
 

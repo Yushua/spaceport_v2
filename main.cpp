@@ -4,12 +4,12 @@
 #include <fstream>
 #include <algorithm>
 #include "loop/loop.h"
-#include "crew.h"
-#include "makeCrew.h"
-#include "room.h"
-#include "makeRoom.h"
-#include "workstation.h"
-#include "makeWorkstation.h"
+#include "entities/crew.h"
+#include "create/makeCrew.h"
+#include "entities/room.h"
+#include "create/makeRoom.h"
+#include "entities/workstation.h"
+#include "create/makeWorkstation.h"
 
 void updateCrewStatusOnTick(std::vector<CrewMember>& crew);
 void updateCrewMemberFiles(const std::vector<CrewMember>& crew);

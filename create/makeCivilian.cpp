@@ -1,10 +1,10 @@
-#include "civilian.h"
+#include "entities/civilian.h"
 #include <random>
 #include <vector>
 #include <string>
 #include <algorithm>
 #include <filesystem>
-#include "randomUtil.h"
+#include "utils/randomUtil.h"
 
 extern std::vector<std::string> firstNames;
 extern std::vector<std::string> lastNames;

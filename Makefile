@@ -1,7 +1,16 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall
+CXXFLAGS = -std=c++17 -Wall -I.
 
-SRCS = main.cpp loop/loop.cpp crew.cpp makeCrew.cpp makeRoom.cpp makeWorkstation.cpp makeCivilian.cpp
+SRCS = main.cpp \
+       loop/loop.cpp \
+       create/makeCrew.cpp \
+       create/makeRoom.cpp \
+       create/makeWorkstation.cpp \
+       create/makeCivilian.cpp \
+       create/makeResource.cpp \
+       create/makeItem.cpp \
+       entities/crew.cpp \
+
 OBJS = $(SRCS:.cpp=.o)
 
 spaceport: $(OBJS)
@@ -18,3 +27,7 @@ clean:
 
 run: spaceport
 	./spaceport
+
+re:
+	$(MAKE) clean
+	$(MAKE) run

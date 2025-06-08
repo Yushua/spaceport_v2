@@ -1,5 +1,5 @@
 #pragma once
-#include "workstation.h"
+#include "entities/workstation.h"
 
 Workstation createScienceStation();
 Workstation createEngineerStation();

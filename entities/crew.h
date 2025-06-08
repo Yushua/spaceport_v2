@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "workstation.h"
+#include "entities/workstation.h"
 
 struct CrewMember {
     std::string name;

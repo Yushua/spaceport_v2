@@ -1,11 +1,11 @@
-#include "makeCrew.h"
+#include "create/makeCrew.h"
 #include <random>
 #include <fstream>
 #include <filesystem>
 #include <algorithm>
 #include <vector>
 #include <string>
-#include "randomUtil.h"
+#include "utils/randomUtil.h"
 
 std::vector<std::string> firstNames = {
     "Alex", "Morgan", "Taylor", "Jordan", "Casey", "Riley", "Jamie", "Drew", "Skyler", "Avery",

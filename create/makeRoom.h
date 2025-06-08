@@ -1,7 +1,7 @@
 #pragma once
-#include "room.h"
+#include "entities/room.h"
 #include <string>
-#include "civilian.h" 
+#include "entities/civilian.h" 
 
 Room createQuarters(int number, int level = 1);
 Room createCafeteria(int level = 1);

@@ -1,5 +1,5 @@
-#include "makeRoom.h"
-#include "civilian.h"
+#include "create/makeRoom.h"
+#include "entities/civilian.h"
 
 Room createQuarters(int number, int level /*= 1*/) {
     Room room;

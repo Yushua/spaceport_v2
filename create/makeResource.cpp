@@ -1,4 +1,4 @@
-#include "resource.h"
+#include "entities/resource.h"
 
 Resource createResource(const std::string& name, const std::string& type) {
     Resource res;

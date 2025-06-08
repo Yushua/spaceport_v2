@@ -1,4 +1,4 @@
-#include "makeWorkstation.h"
+#include "create/makeWorkstation.h"
 
 Workstation createCaptainStation() {
     return {"CaptainStation", "Captain", 10};

@@ -1,5 +1,5 @@
 #pragma once
-#include "crew.h"
+#include "entities/crew.h"
 
 CrewMember createCommander();
 CrewMember createEngineer();
